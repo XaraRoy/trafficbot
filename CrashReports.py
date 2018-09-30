@@ -91,7 +91,7 @@ def parse(XMLfile):
             except KeyError:
                 events.append("none")
 
-            update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
+            update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event[1], direction, road, location)
             API.update_status(update_str)
 
     DF = pd.DataFrame({"Name" : names,
