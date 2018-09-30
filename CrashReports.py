@@ -22,7 +22,7 @@ access_token_secret = os.environ.get("access_token_secret")
 # Setup Tweepy API Authentication
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()
+API = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 
 def download():
@@ -30,11 +30,9 @@ def download():
     content = urllib.request.urlopen(url)
     output = open("incidents.XML.gz", "wb")
     output.write(content.read())
-    output.close()
+    output.close() 
     print("Downloading Incident Data")
 
-
-# In[3]:
 
 
 def unzip(file, target):
@@ -46,7 +44,6 @@ def unzip(file, target):
 
 
 def unzipa(file, target):
-    attempts = 0 
     try:
         with gzip.open(file, 'rb') as f_in:
             with open(target, 'wb') as f_out:
