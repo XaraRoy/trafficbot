@@ -96,7 +96,10 @@ def parse(XMLfile):
             print(event)
             if event == 'HAZARD' or 'CRASH':
                 update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
-                API.update_status(update_str)
+                try:
+                    API.update_status(update_str)
+                except TweepError as t:
+                    print(t)
 
     DF = pd.DataFrame({"Name" : names,
                        "Date" : dates,
