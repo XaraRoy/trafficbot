@@ -28,6 +28,7 @@ def download():
     r = requests.get('http://data.dot.state.mn.us/iris_xml/incident.xml.gz')
     with open('incident.xml', 'w') as handle:
         handle.write(gzip.decompress(r.content).decode('utf-8'))
+    print("Downloading Traffic Data")
 
 
 def data_check(XMLfile):
@@ -57,8 +58,8 @@ def parse(XMLfile):
     root = parsedXML.getroot()
 
     for child in root:
-
-        if child.attrib['name'] not in str(All_Crash_Data['Name']):
+        
+        if child.attrib['name'] not in All_Crash_Data['Name']:
             try:
                 date = child.attrib['event_date']
                 dates.append(date)
@@ -82,16 +83,19 @@ def parse(XMLfile):
 
             try:
                 location = child.attrib['location']
-                locations.append(location)
             except KeyError:
-                locations.append("none")
+                location = "none"
+            locations.append(location)
+           
             try: 
                 event = child.attrib['event_type'].split("_", 1)
-                events.append(event[1])
+                event = event[1]
+                events.append(event)
             except KeyError:
                 events.append("none")
-            if event[1] == 'HAZARD' or 'CRASH':
-                update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event[1], direction, road, location)
+            print(event)
+            if event == 'HAZARD' or 'CRASH':
+                update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
                 API.update_status(update_str)
 
     DF = pd.DataFrame({"Name" : names,
