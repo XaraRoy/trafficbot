@@ -3,7 +3,7 @@
 
 # In[1]:
 
-
+import requests
 import pandas as pd
 import os
 import xml.etree.ElementTree as ET
@@ -26,12 +26,10 @@ API = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 
 def download():
-    url = "http://data.dot.state.mn.us/iris_xml/incident.xml.gz"
-    content = urllib.request.urlopen(url)
-    output = open("incidents.XML.gz", "wb")
-    output.write(content.read())
-    output.close() 
-    print("Downloading Incident Data")
+  
+    r = requests.get('http://data.dot.state.mn.us/iris_xml/incident.xml.gz')
+    with open('incident.xml', 'w') as handle:
+        handle.write(gzip.decompress(r.content).decode('utf-8'))
 
 
 
