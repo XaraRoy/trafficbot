@@ -32,41 +32,6 @@ def download():
         handle.write(gzip.decompress(r.content).decode('utf-8'))
 
 
-
-def unzip(file, target):
-    unzipa(file, target)
-    unzipb(file, target)
-
-
-# In[4]:
-
-
-def unzipa(file, target):
-    try:
-        with gzip.open(file, 'rb') as f_in:
-            with open(target, 'wb') as f_out:
-                shutil.copyfileobj(f_in, f_out)
-    except FileNotFoundError:
-        print("File not found, retrying in 10 secs")
-        time.sleep(10)
-
-
-# In[5]:
-
-
-def unzipb(file, target):
-    attempts = 0 
-    try:
-        with gzip.open(file, 'rb') as f_in:
-            with open(target, 'wb') as f_out:
-                shutil.copyfileobj(f_in, f_out)
-    except FileNotFoundError:
-        print("File not found, giving up")
-
-
-# In[6]:
-
-
 def data_check(XMLfile):
     try:
         with open('crash_data.csv', 'r') as CD:
@@ -125,8 +90,8 @@ def parse(XMLfile):
             except KeyError:
                 locations.append("none")
             try: 
-                event = child.attrib['event_type']
-                events.append(event)
+                event = child.attrib['event_type'].split("_", 1)
+                events.append(event[1])
             except KeyError:
                 events.append("none")
 
