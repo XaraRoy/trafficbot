@@ -98,7 +98,7 @@ def parse(XMLfile):
                 update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
                 try:
                     API.update_status(update_str)
-                except TweepError as t:
+                except tweepy.error.TweepError as t:
                     print(t)
 
     DF = pd.DataFrame({"Name" : names,
