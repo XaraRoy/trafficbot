@@ -138,18 +138,10 @@ def parse(XMLfile):
 
 # In[8]:
 
-
-download()
-
-
-# In[9]:
-
-
-unzip("incidents.xml.gz", "incident.xml")
-
-
-# In[10]:
-
-
-data_check("incident.xml")
+while True:
+    download()
+    unzip("incidents.xml.gz", "incident.xml")
+    data_check("incident.xml")
+    print("MDOT checked, waiting 30min")
+    time.sleep(1800)
 
