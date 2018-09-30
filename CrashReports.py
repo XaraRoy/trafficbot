@@ -95,7 +95,7 @@ def parse(XMLfile):
                 events.append("none")
             print(event)
             if event == 'HAZARD' or 'CRASH':
-                update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
+                update_str = "{} reported at {} {} {}, Data From MNDOT Traffic".format(event, direction, road, location)
                 try:
                     API.update_status(update_str)
                 except tweepy.error.TweepError as t:
