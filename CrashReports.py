@@ -9,8 +9,6 @@ import os
 import xml.etree.ElementTree as ET
 import gzip
 import time
-import shutil
-import urllib
 import tweepy
 
 
@@ -42,8 +40,6 @@ def data_check(XMLfile):
                 All_Crash_Data.to_csv(f, header=True)
             parse(XMLfile)
 
-
-# In[7]:
 
 
 def parse(XMLfile):
@@ -112,11 +108,10 @@ def parse(XMLfile):
         DF.to_csv(f, header=False)
 
 
-# In[8]:
+
 
 while True:
     download()
-    unzip("incidents.xml.gz", "incident.xml")
     data_check("incident.xml")
     print("MDOT checked, waiting 30min")
     time.sleep(1800)
