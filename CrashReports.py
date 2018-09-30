@@ -11,9 +11,18 @@ import gzip
 import time
 import shutil
 import urllib
+import tweepy
 
 
-# In[2]:
+consumer_key = os.environ.get("consumer_key")
+consumer_secret = os.environ.get("consumer_secret")
+access_token = os.environ.get("access_token")
+access_token_secret = os.environ.get("access_token_secret")
+
+# Setup Tweepy API Authentication
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()
 
 
 def download():
@@ -95,32 +104,39 @@ def parse(XMLfile):
 
         if child.attrib['name'] not in str(All_Crash_Data['Name']):
             try:
-                dates.append(child.attrib['event_date'])
+                date = child.attrib['event_date']
+                dates.append(date)
             except KeyError:
                 dates.append("none")
             try:
-                names.append(str(child.attrib['name']))
+                name = str(child.attrib['name'])
+                names.append(name)
             except KeyError:
                 name.append("none")
             try:
-                incident_dirs.append(child.attrib['dir'])
+                direction = child.attrib['dir']
+                incident_dirs.append(direction)
             except KeyError:
                 incident_dir.append("none")
             try:
-                roads.append(child.attrib['road'])
+                road = child.attrib['road']
+                roads.append(road)
             except KeyError:
                 roads.append('None')
 
             try:
-                locations.append(child.attrib['location'])
+                location = child.attrib['location']
+                locations.append(location)
             except KeyError:
                 locations.append("none")
             try: 
-                events.append(child.attrib['event_type'])
+                event = child.attrib['event_type']
+                events.append(event)
             except KeyError:
                 events.append("none")
 
-
+            update_str = "{} reported at {} {}, near {}, Data From MNDOT Traffic".format(event, direction, road, location)
+            API.update_status(update_str)
 
     DF = pd.DataFrame({"Name" : names,
                        "Date" : dates,
